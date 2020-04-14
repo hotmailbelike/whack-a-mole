@@ -1,6 +1,19 @@
+.square {
+	width: 200px;
+	height: 200px;
+	border: solid black;
+}
+
 .grid {
 	display: flex;
-	flex-wrap: wrap;
-	height: 300px;
-	width: 400px;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-self: center;
+	width: 618px;
+	height: 618px;
+}
+
+.mole {
+	background-image: url('./images/WhackAMole1.jpg');
+	background-size: cover;
 }

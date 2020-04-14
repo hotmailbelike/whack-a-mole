@@ -1,109 +1,47 @@
-document.addEventListener('DOMContentLoaded', () => {
-	//array of cards
+let square = document.querySelectorAll('.square');
+let mole = document.querySelectorAll('.mole');
+let timeLeft = document.querySelectorAll('#time-left');
+let score = document.querySelectorAll('#score');
 
-	const cardArray = [
-		{
-			name: 'fries',
-			img: 'images/fries.png',
-		},
-		{
-			name: 'cheeseburger',
-			img: 'images/cheeseburger.png',
-		},
-		{
-			name: 'ice-cream',
-			img: 'images/ice-cream.png',
-		},
-		{
-			name: 'pizza',
-			img: 'images/pizza.png',
-		},
-		{
-			name: 'milkshake',
-			img: 'images/milkshake.png',
-		},
-		{
-			name: 'hotdog',
-			img: 'images/hotdog.png',
-		},
-		{
-			name: 'fries',
-			img: 'images/fries.png',
-		},
-		{
-			name: 'cheeseburger',
-			img: 'images/cheeseburger.png',
-		},
-		{
-			name: 'ice-cream',
-			img: 'images/ice-cream.png',
-		},
-		{
-			name: 'pizza',
-			img: 'images/pizza.png',
-		},
-		{
-			name: 'milkshake',
-			img: 'images/milkshake.png',
-		},
-		{
-			name: 'hotdog',
-			img: 'images/hotdog.png',
-		},
-	];
+let result = 0;
+let currentTime = timeLeft.textContent;
+// let hitPosition = '';
 
-	cardArray.sort(() => 0.5 - Math.random());
+const randomSquare = () => {
+	square.forEach((className) => {
+		className.classList.remove('mole');
+	});
+	let randomPosition = square[Math.floor(Math.random() * 9)];
+	randomPosition.classList.add('mole');
 
-	//create board
-	const grid = document.querySelector('.grid');
+	//assign the id of the randomPosition to hitPosition
+	let hitPosition = randomPosition.id;
+};
 
-	let resultDisplay = document.querySelector('#result');
-	let cardsChosen = [];
-	let cardsChosenId = [];
-	let cardsWon = [];
-
-	const createBoard = () => {
-		for (let i = 0; i < cardArray.length; i++) {
-			let card = document.createElement('img');
-			card.setAttribute('src', 'images/blank.png');
-			card.setAttribute('data-id', i);
-			card.addEventListener('click', flipCard);
-			grid.appendChild(card);
+square.forEach((id) => {
+	id.addEventListener('mouseup', () => {
+		if (id.id === hitPosition) {
+			result++;
+			score.textContent = result;
 		}
-	};
-
-	//check for matches
-	const checkForMatch = () => {
-		let cards = document.querySelectorAll('img');
-		const optionOneId = cardsChosenId[0];
-		const optionTwoId = cardsChosenId[1];
-		if (cardsChosen[0] === cardsChosen[1]) {
-			alert("It's a Match!");
-			cards[optionOneId].setAttribute('src', 'images/white.png');
-			cards[optionTwoId].setAttribute('src', 'images/white.png');
-			cardsWon.push(cardsChosen);
-		} else {
-			cards[optionOneId].setAttribute('src', 'images/blank.png');
-			cards[optionTwoId].setAttribute('src', 'images/blank.png');
-			alert('Sorry Try again');
-		}
-		cardsChosen = [];
-		cardsChosenId = [];
-		resultDisplay.textContent = cardsWon.length;
-		if (cardsWon.length === cardArray.length / 2) {
-			resultDisplay.textContent = 'You found them all!';
-		}
-	};
-
-	//flip card
-	function flipCard() {
-		let cardId = this.getAttribute('data-id');
-		cardsChosen.push(cardArray[cardId].name);
-		cardsChosenId.push(cardId);
-		this.setAttribute('src', cardArray[cardId].img);
-		if (cardsChosen.length === 2) {
-			setTimeout(checkForMatch, 500);
-		}
-	}
-	createBoard();
+	});
 });
+
+const moveMole = () => {
+	let timerId = null;
+	timerId = setInterval(randomSquare, 500);
+};
+
+moveMole();
+
+const countDown = () => {
+	currentTime--;
+	timeLeft.textContent = currentTime;
+
+	if (currentTime === 0) {
+		clearInterval(timerId);
+		alert('GAME OVER! Your final score is ' + result);
+	}
+};
+
+let timerId = setInterval(countDown, 500);
