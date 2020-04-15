@@ -15,13 +15,13 @@ const randomSquare = () => {
 	randomPosition.classList.add('mole');
 
 	//assign the id of the randomPosition to hitPosition
-	let hitPosition = randomPosition.id;
+	hitPosition = randomPosition.id;
 };
 
 square.forEach((id) => {
 	id.addEventListener('mouseup', () => {
 		if (id.id === hitPosition) {
-			result++;
+			result += 1;
 			score.textContent = result;
 		}
 	});
@@ -29,7 +29,7 @@ square.forEach((id) => {
 
 const moveMole = () => {
 	let timerId = null;
-	timerId = setInterval(randomSquare, 500);
+	timerId = setInterval(randomSquare, 1000);
 };
 
 moveMole();
@@ -44,4 +44,4 @@ const countDown = () => {
 	}
 };
 
-let timerId = setInterval(countDown, 500);
+let timerId = setInterval(countDown, 1000);
