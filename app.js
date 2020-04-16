@@ -4,10 +4,11 @@ let timeLeft = document.querySelectorAll('#time-left');
 let score = document.querySelectorAll('#score');
 
 let result = 0;
-let currentTime = timeLeft.textContent;
-// let hitPosition = '';
+let currentTime = timeLeft[0].textContent;
+let hitPosition;
+console.log(currentTime);
 
-const randomSquare = () => {
+function randomSquare() {
 	square.forEach((className) => {
 		className.classList.remove('mole');
 	});
@@ -16,32 +17,35 @@ const randomSquare = () => {
 
 	//assign the id of the randomPosition to hitPosition
 	hitPosition = randomPosition.id;
-};
+}
 
 square.forEach((id) => {
 	id.addEventListener('mouseup', () => {
 		if (id.id === hitPosition) {
 			result += 1;
-			score.textContent = result;
+			score[0].textContent = result;
 		}
 	});
 });
 
-const moveMole = () => {
+function moveMole() {
 	let timerId = null;
-	timerId = setInterval(randomSquare, 1000);
-};
+	timerId = setInterval(randomSquare, 500);
+}
 
-moveMole();
-
-const countDown = () => {
+function countDown() {
 	currentTime--;
-	timeLeft.textContent = currentTime;
+	timeLeft[0].textContent = currentTime;
 
 	if (currentTime === 0) {
 		clearInterval(timerId);
-		alert('GAME OVER! Your final score is ' + result);
+		alert('GAME OVER! Your final score is ' + result + ' Press okay to play again');
+		setInterval(() => {
+			location.reload();
+		}, 10);
 	}
-};
+}
 
 let timerId = setInterval(countDown, 1000);
+
+moveMole();
